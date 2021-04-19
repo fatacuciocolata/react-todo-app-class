@@ -1,26 +1,44 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import { connect } from "react-redux"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import TodoList from "./components/TodoList"
+import AddTodo from "./components/AddTodo"
+import Filter from "./components/Filter"
+import Wrapper from "./components/common/Wrapper"
+import TodoListStyled from "./components/common/TodoListStyled"
+import Loading from "./components/common/Loading"
+
+type AppProps = {
+  appState?: boolean
+  // isLoading?: boolean
 }
 
-export default App;
+class App extends React.Component<AppProps> {
+  render () {
+    console.log(this.props.appState)
+    return (
+      <>
+        <Wrapper></Wrapper>
+        <div className="App">
+          {/* {this.props.appState && <Loading /> } */}
+          <>
+            <AddTodo />
+              <TodoListStyled>
+                <TodoList />
+                <Filter />
+              </TodoListStyled>
+          </>
+        </div>
+      </>
+    )
+  }
+}
+
+const mapStateToProps = (state: AppProps) => {
+  return {
+      appState: state.appState
+    }
+}
+
+export default connect(mapStateToProps, null)(App)
